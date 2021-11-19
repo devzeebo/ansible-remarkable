@@ -1,0 +1,37 @@
+---
+- name: Setup Python
+  import_playbook: ./bootstrap-python/python.yaml
+
+- hosts: remarkable
+  user: root
+
+  handlers:
+    - name: Restart xochitl
+      service:
+        name: xochitl
+        state: restarted
+
+  tasks:
+    - name: Copy Templates
+      loop: "{{ templates }}"
+      loop_control:
+        label: Copying {{ item.name }}
+      copy:
+        src: "{{ item.src }}"
+        dest: /usr/share/remarkable/templates/{{ item.filename }}.png
+      notify: Restart xochitl
+
+    - name: Get templates.json
+      slurp:
+        src: /usr/share/remarkable/templates/templates.json
+      register: templates_json
+
+    - name: Modify templates.json
+      set_fact:
+        templates_json: "{{ templates_json['content'] | b64decode | from_json | combine(lookup('template', 'templates.yaml.j2') | from_yaml, recursive=True, list_merge='append_rp') }}"
+
+    - name: Write back templates.json
+      template:
+        src: templates.json.j2
+        dest: /usr/share/remarkable/templates/templates.json
+      notify: Restart xochitl

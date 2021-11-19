@@ -1,0 +1,7 @@
+templates:
+{% for template in templates %}
+  - name: {{ template.name }}
+    filename: {{ template.filename }}
+    iconCode: "{{ template.iconCode }}"
+    categories: {{ template.categories }}
+{% endfor %}

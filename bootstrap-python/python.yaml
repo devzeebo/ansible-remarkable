@@ -1,0 +1,53 @@
+---
+- hosts: remarkable
+  gather_facts: false
+  remote_user: root
+  vars:
+    python_install_dir: /home/root/.localpackages/python2-2.7.18-3-armv7h
+
+  tasks:
+    - name: Check for Python
+      raw: test -e {{ python_install_dir }}/usr/bin/python2
+      changed_when: false
+      failed_when: false
+      register: check_copy_python
+    
+    - name: Make directories
+      raw: mkdir -p {{ python_install_dir }}
+      when: check_copy_python.rc != 0
+
+    - name: Copy Python
+      local_action:
+        module: command
+        cmd: scp -r ./python2/usr root@remarkable:{{ python_install_dir }}
+      when: check_copy_python.rc != 0
+
+    - name: Check shell script
+      raw: test -e /home/root/.bin/python2
+      changed_when: false
+      failed_when: false
+      register: check_shell_script
+
+    - name: Create .bin
+      raw: mkdir -p /home/root/.bin
+      when: check_shell_script.rc != 0
+
+    - name: Create shell script
+      local_action:
+        module: command
+        cmd: scp ./python2.sh root@remarkable:/home/root/.bin/python2
+      when: check_shell_script.rc != 0
+    
+    - name: Check symlink
+      raw: test -e /usr/bin/python
+      changed_when: false
+      failed_when: false
+      register: check_symlink
+
+    - name: Create /usr/bin
+      raw: mkdir -p /usr/bin
+      when: check_symlink.rc != 0
+    
+    - name: Symlink Python
+      raw: ln -s /home/root/.bin/python2 /usr/bin/python
+      when: check_symlink.rc != 0
