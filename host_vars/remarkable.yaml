@@ -2,14 +2,14 @@
 ansible_host: remarkable
 templates:
   - name: Planner - Daily
-    src: ../templates/daily/template.png
+    src: daily/template.png
     filename: P Planner Daily
     iconCode: "\ue9ff"
     categories:
       - Life/organize
-  - name: Planner - Monthly
-    src: ../templates/monthly/template.png
-    filename: P Planner Monthly
-    iconCode: "\ue99a"
-    categories:
-      - Life/organize
+  # - name: Planner - Monthly
+  #   src: ../templates/monthly/template.png
+  #   filename: P Planner Monthly
+  #   iconCode: "\ue99a"
+  #   categories:
+  #     - Life/organize
