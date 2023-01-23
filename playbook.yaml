@@ -29,6 +29,23 @@
     - name: Modify templates.json
       set_fact:
         templates_json: "{{ templates_json['content'] | b64decode | from_json | combine(lookup('template', 'templates.yaml.j2') | from_yaml, recursive=True, list_merge='append_rp') }}"
+    
+    - name: Save Pre-Lemur mode
+      loop: "{{ lemurs }}"
+      loop_control:
+        label: Saving {{ item.dest }}
+      fetch:
+        dest: ./backup/{{ ansible_date_time.iso8601 }}/{{ item.dest }}
+        src: /usr/share/remarkable/{{ item.dest }}
+    
+    - name: Set Lemur mode
+      loop: "{{ lemurs }}"
+      loop_control:
+        label: Copying {{ item.src }}
+      copy:
+        src: "{{ item.src }}"
+        dest: /usr/share/remarkable/{{ item.dest }}
+      notify: Restart xochitl
 
     - name: Write back templates.json
       template:

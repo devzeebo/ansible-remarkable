@@ -1,5 +1,8 @@
 ---
 ansible_host: remarkable
+lemurs:
+  - src: sleeping.png
+    dest: suspended.png
 templates:
   - name: Planner - Daily
     src: daily/template.png
@@ -7,9 +10,9 @@ templates:
     iconCode: "\ue9ff"
     categories:
       - Life/organize
-  # - name: Planner - Monthly
-  #   src: ../templates/monthly/template.png
-  #   filename: P Planner Monthly
-  #   iconCode: "\ue99a"
-  #   categories:
-  #     - Life/organize
+  - name: Planner - Monthly
+    src: monthly/template.png
+    filename: P Planner Monthly
+    iconCode: "\ue99a"
+    categories:
+      - Life/organize
