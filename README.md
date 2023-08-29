@@ -1,10 +1,10 @@
 1. Download Python 2 from the Arch Arm repositories (armv7h)
-    * https://archlinuxarm.org/packages/armv7h/python2
-    * http://mirror.archlinuxarm.org/armv7h/extra/python2-2.7.18-5.1-armv7h.pkg.tar.xz
+    <!-- * http://mirror.archlinuxarm.org/armv7h/extra/python2-2.7.18-5.1-armv7h.pkg.tar.xz -->
+    * https://archlinuxarm.org/packages/armv7h/python
 
-2. Extract to \<repo-root>/bootstrap-python/python2
+2. Extract to \<repo-root>/bootstrap-python/python3
   * Should be:
-    \<repo-root>/bootstrap-python/python2/usr/...
+    \<repo-root>/bootstrap-python/python3/usr/...
 
 3. Ensure you can ssh to your reMarkable
 

@@ -1,1 +1,3 @@
-bootstrap-python/python2/
+bootstrap-python/python/
+bootstrap-python/*.tar.*
+backup/
